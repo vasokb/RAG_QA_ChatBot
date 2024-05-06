@@ -6,16 +6,18 @@ This project is aimed at creating an interactive Question Answering (QA) system 
 
 As an AI enthusiast, I developed this Chatbot application as a personal project to explore the capabilities of RAG and further develop my skills in Generative AI. I applied it on my [Master's thesis](https://liu.diva-portal.org/smash/get/diva2:1573635/FULLTEXT01.pdf) document as a way to inject a bit of fun and excitement into something I already cherished. Plus, who knows how much I'll remember about it in a few years?
 
+*Note: You can use the chatbot with any other pdf document but it uses the Master's thesis by default.*
+
 ## Status
 
 This project is currently under development.
 
 #### TODO
 
-- [ ] Add a requirements file
+- [x] Add a requirements file
 - [ ] Setup an evaluation pipeline
 - [ ] Experiment with more sophisticated chunking methods, embedding models, etc.
-- [ ] Enable users to upload any document through the UI
+- [x] Enable users to give a custom pdf as input
 
 ## Usage
 
@@ -32,6 +34,14 @@ To start the Chatbot run the following command:
 ```bash
 streamlit run main.py
 ````
+
+To use the chatbot with a **custom** pdf, pass the pdf as an argument like that:
+
+```bash
+streamlit run main.py -- --pdf <Path to your pdf document>
+````
+
+*Note:* The "--" seperator is needed before the *--pdf* flag. This is because of the way streamlit interprets flags. 
 
 After running the command, the Chatbot will open in a browser. Then you can start interacting with the Chatbot and ask it questions.
 

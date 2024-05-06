@@ -1,6 +1,9 @@
 import torch
 import streamlit as st
 import time
+import argparse
+import requests
+import tempfile
 
 from utils import load_document, split_doc, create_vectorDB, load_llm, prompt_formatter
 
@@ -40,16 +43,29 @@ def rag_chain(doc_path, query, reader_model, chunk_size=512, chunk_overlap=50, t
     return answer, retrieved_docs_text
 
 
-st.title("Hi! This is your digital histopathology ChatBot!")
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='RAG Application')
+    parser.add_argument('--pdf', type=str, help='Path to PDF document.')
+    args = parser.parse_args()
 
-user_query = st.text_input("Enter your question:", "")
-if st.button("Submit"):
-    try:
-        start_time = time.time()
-        response, relevant_docs = rag_chain(doc_path="thesis.pdf", query= user_query,
-                                  reader_model = 'mistralai/Mistral-7B-Instruct-v0.1')
-        end_time = time.time()
-        execution_time = end_time - start_time
-        st.write(f"{response} \n\n Execution time: {round(execution_time,2)} seconds")
-    except Exception as e:
-        st.write(f"An error occurred: {e}")
+    if args.pdf is None:
+        # Fetch master thesis pdf from url as default document
+        url = "https://liu.diva-portal.org/smash/get/diva2:1573635/FULLTEXT01.pdf"
+        response = requests.get(url)
+        with tempfile.NamedTemporaryFile() as temp_file:
+            temp_file.write(response.content)
+            args.pdf = temp_file.name
+
+    st.title("Hi! I am an AI-powered chatbot. Let's chat! 👾")
+
+    user_query = st.text_input("Enter your question:", "")
+    if st.button("Submit"):
+        try:
+            start_time = time.time()
+            response, relevant_docs = rag_chain(doc_path=args.pdf, query=user_query,
+                                      reader_model='mistralai/Mistral-7B-Instruct-v0.1')
+            end_time = time.time()
+            execution_time = end_time - start_time
+            st.write(f"{response} \n\n Execution time: {round(execution_time,2)} seconds")
+        except Exception as e:
+            st.write(f"An error occurred: {e}")
