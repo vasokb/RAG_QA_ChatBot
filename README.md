@@ -8,17 +8,6 @@ As an AI enthusiast, I developed this Chatbot application as a personal project 
 
 *Note: You can use the chatbot with any other pdf document but it uses the Master's thesis by default.*
 
-## Status
-
-This project is currently under development.
-
-#### TODO
-
-- [x] Add a requirements file
-- [ ] Setup an evaluation pipeline
-- [ ] Experiment with more sophisticated chunking methods, embedding models, etc.
-- [x] Enable users to give a custom pdf as input
-
 ## Usage
 
 First clone the repository using Git.
