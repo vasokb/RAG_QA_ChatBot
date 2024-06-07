@@ -76,8 +76,13 @@ if __name__ == "__main__":
     if args.pdf is None:
         # Fetch master thesis pdf from url as default document
         url = "https://liu.diva-portal.org/smash/get/diva2:1573635/FULLTEXT01.pdf"
-        response = requests.get(url)
-        with tempfile.NamedTemporaryFile() as temp_file:
+
+        headers = {
+            'User-Agent': 'Mozilla/5.0'
+        }
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        with tempfile.NamedTemporaryFile(delete=False) as temp_file:
             temp_file.write(response.content)
             args.pdf = temp_file.name
 
